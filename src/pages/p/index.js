@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "../../components/Layout";
+import Loader from "../../components/Loader";
 import mockData from "../../mockData";
 import Profile from "./Profile";
 
@@ -11,11 +12,9 @@ export default class Person extends React.Component {
 
   componentDidMount() {
     const { match } = this.props;
-    console.log(match.params);
     const { id } = match.params;
     if (id && id.length) {
       const person = mockData.people[id];
-      console.log(person);
       if (person) {
         this.setState({ person, hasLoaded: true });
       } else {
@@ -44,7 +43,9 @@ export default class Person extends React.Component {
             <div>Nobody home...</div>
           )
         ) : (
-          <div>Loading...</div>
+          <div style={{ padding: "2rem" }}>
+            <Loader size={5} />
+          </div>
         )}
       </Layout>
     );

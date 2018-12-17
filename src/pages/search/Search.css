@@ -17,7 +17,7 @@
 .search-link {
   text-align: center;
   display: block;
-  margin: 1rem auto 2rem;
+  margin: 1.5rem auto 2rem;
   text-decoration: none;
   background-color: #198bed;
   color: #fff;
@@ -28,6 +28,7 @@
   width: 6.5rem;
   line-height: 1.5;
   user-select: none;
+  letter-spacing: 0.025rem;
 }
 .search-link:hover,
 .search-link:active {
@@ -35,6 +36,10 @@
 }
 .search-link:focus {
   box-shadow: 0 0 0 0.25rem rgba(25, 139, 237, 0.25);
+}
+.search-link[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
 }
 .search-form-group {
   margin: 1rem 0 0;
@@ -64,6 +69,15 @@ input:hover {
   font-size: 0.875rem;
   color: #777;
   margin: 0.25rem 0 0 0;
+}
+.location-helper-text {
+  font-size: 0.875rem;
+  color: #777;
+  margin: 0;
+}
+.location-loader {
+  float: left;
+  margin-right: 0.5rem;
 }
 .age-range,
 .near-me-group {

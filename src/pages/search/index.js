@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
+import Loader from "../../components/Loader";
 import "./Search.css";
 
 export default class Search extends React.Component {
@@ -9,38 +10,80 @@ export default class Search extends React.Component {
     identities: "",
     min: "",
     max: "",
-    nearMe: false
+    nearMe: false,
+    showNearMe: !!window.navigator.geolocation,
+    requestCoords: false,
+    loadingCoords: false,
+    coords: false
   };
 
-  handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value
-    });
+  handleInputChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({ [name]: value });
   };
 
-  getLinkTo = () => {
-    const { name, identities, min, max, nearMe } = this.state;
-    let linkTo = "/discover/?";
+  handleCheckboxChange = ({ target }) => {
+    const nearMe = target.checked;
+    const { requestCoords, loadingCoords } = this.state;
+    if (nearMe && !requestCoords && !loadingCoords) {
+      this.setState({
+        loadingCoords: true,
+        requestCoords: true,
+        nearMe
+      });
+      window.navigator.geolocation.getCurrentPosition(({ coords }) => {
+        this.setState({
+          coords,
+          loadingCoords: false
+        });
+      });
+      return;
+    }
+    if (!nearMe && requestCoords && loadingCoords) {
+      this.setState({
+        loadingCoords: false,
+        nearMe
+      });
+      return;
+    }
+    this.setState({ nearMe });
+  };
+
+  getSearch = () => {
+    const { name, identities, min, max, nearMe, coords } = this.state;
+    let linkTo = "?";
     if (name) {
-      linkTo += `name="${name}",`;
+      linkTo += `name="${name}"&`;
     }
     if (identities) {
-      linkTo += `identities="${identities}",`;
+      linkTo += `identities="${identities}",&`;
     }
     if (min) {
-      linkTo += `min="${min}",`;
+      linkTo += `min=${min}&`;
     }
     if (max) {
-      linkTo += `max="${max}",`;
+      linkTo += `max=${max}&`;
     }
-    return `${linkTo}nearMe="${nearMe}"`;
+    if (nearMe && coords) {
+      linkTo += `nearMe=${nearMe}&lat=${coords.latitude}&lon=${
+        coords.longitude
+      }&`;
+    }
+    return linkTo.slice(0, -1);
   };
 
   render() {
-    const { name, identities, min, max, nearMe } = this.state;
+    const {
+      name,
+      identities,
+      min,
+      max,
+      nearMe,
+      showNearMe,
+      loadingCoords,
+      requestCoords,
+      coords
+    } = this.state;
     return (
       <Layout>
         <section id="search">
@@ -72,7 +115,7 @@ export default class Search extends React.Component {
               />
             </div>
             <p className="input-helper-text">
-              Separate identities with a comma
+              Separate identities with a comma.
             </p>
             <div className="search-form-group age-group">
               <label htmlFor="min">Age</label>
@@ -104,17 +147,43 @@ export default class Search extends React.Component {
                 />
               </div>
             </div>
-            <div className="search-form-group near-me-group">
-              <input
-                type="checkbox"
-                id="nearMe"
-                name="nearMe"
-                checked={nearMe}
-                onChange={this.handleInputChange}
-              />
-              <label htmlFor="nearMe">Near me</label>
-            </div>
-            <Link className="search-link" to={this.getLinkTo()}>
+            {showNearMe && (
+              <>
+                <div className="search-form-group near-me-group">
+                  <input
+                    type="checkbox"
+                    id="nearMe"
+                    name="nearMe"
+                    checked={nearMe}
+                    onChange={this.handleCheckboxChange}
+                    disabled={!loadingCoords && requestCoords && !coords}
+                  />
+                  <label htmlFor="nearMe">Near me</label>
+                </div>
+                <div className="location-helper-text">
+                  {loadingCoords && (
+                    <div className="location-loader">
+                      <Loader size={1.125} />
+                    </div>
+                  )}
+                  {loadingCoords
+                    ? "Getting your location..."
+                    : requestCoords
+                      ? !!coords
+                        ? "Location received."
+                        : "Location request denied."
+                      : "This option will ask for your location."}
+                </div>
+              </>
+            )}
+            <Link
+              className="search-link"
+              to={{
+                pathname: "/discover",
+                search: this.getSearch()
+              }}
+              disabled={loadingCoords}
+            >
               Search
             </Link>
           </div>

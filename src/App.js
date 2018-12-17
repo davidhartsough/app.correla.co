@@ -15,7 +15,7 @@ export default () => (
   <Router>
     <Switch>
       <Route exact path="/" component={Search} />
-      <Route exact path="/discover/:search" component={Discover} />
+      <Route path="/discover" component={Discover} />
       <Route path="/p/:id" component={Person} />
       <Route component={NoMatch} />
     </Switch>
