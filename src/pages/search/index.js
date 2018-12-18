@@ -53,10 +53,10 @@ export default class Search extends React.Component {
     const { name, identities, min, max, nearMe, coords } = this.state;
     let linkTo = "?";
     if (name) {
-      linkTo += `name="${name}"&`;
+      linkTo += `name="${name.trim()}"&`;
     }
     if (identities) {
-      linkTo += `identities="${identities}",&`;
+      linkTo += `identities="${identities.trim()}"&`;
     }
     if (min) {
       linkTo += `min=${min}&`;

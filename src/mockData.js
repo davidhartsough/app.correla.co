@@ -3,10 +3,29 @@ export default {
     "123": {
       id: "123",
       name: "David Hartsough",
+      nameSearch: ["DAVID", "HARTSOUGH"],
       username: "davidhartsough",
-      location: "Boise, ID",
+      locationName: "Boise, ID",
+      location: {
+        type: "Point",
+        coordinates: [-116.2032629, 43.632513]
+      },
       birthday: 765072000000,
       email: "hartsoughdavid@gmail.com",
+      identitiesSearch: [
+        "HAPPY HUMAN",
+        "CONVERSATIONALIST",
+        "COMMUNITY BUILDER",
+        "PHILOSOPHER",
+        "PSYCHOLOGIST",
+        "DEVELOPER",
+        "DRUMMER",
+        "MUSICIAN",
+        "WRITER",
+        "VIDEOGRAPHER",
+        "DESIGNER",
+        "STUNTMAN"
+      ],
       identities: [
         "Happy human",
         "Conversationalist",
@@ -67,8 +86,9 @@ export default {
     },
     "321": {
       id: "321",
-      name: "David Hartsough",
-      username: "davidhartsough"
+      nameSearch: ["JOEL", "HARTSOUGH"],
+      name: "Joel Hartsough",
+      username: "joel"
     }
   }
 };

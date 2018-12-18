@@ -1606,7 +1606,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-base64-js@^1.0.2:
+base64-js@^1.0.2, base64-js@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.0.tgz#cab1e6118f051095e58b5281aea8c1cd22bfc0e3"
   integrity sha512-ccav/yGvoa80BQDljCxsmmQ3Xvx60/UpBIij5QN21W3wBi/hhIC9OoO+KLpu9IJTS9j4DRVJ3aDDF9cMSoa2lw==
@@ -1833,6 +1833,14 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
+bson@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-4.0.0.tgz#7684b512e9ae59fe3518ff2b35ec0c9741bf9f57"
+  integrity sha512-303qcGsM1cosFi2xYlHViuGTHpC+gDf59aWcxB+/GZY4skzXG6ta2mw6OPlBOA4mtOyZJMvgp4IWdbmXs4tKpw==
+  dependencies:
+    buffer "^5.1.0"
+    long "^4.0.0"
+
 buffer-from@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
@@ -1856,6 +1864,14 @@ buffer@^4.3.0:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
     isarray "^1.0.0"
+
+buffer@^5.1.0:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.2.1.tgz#dd57fa0f109ac59c602479044dca7b8b3d0b71d6"
+  integrity sha512-c+Ko0loDaFfuPWiL02ls9Xd3GO3cPVmUobQ6t3rXNUk304u6hGq+8N/kFi+QEIKhzK3uwolVhLzszmfLmMLnqg==
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
 
 builtin-modules@^1.0.0:
   version "1.1.1"
@@ -2408,6 +2424,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+cross-fetch@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-2.2.3.tgz#e8a0b3c54598136e037f8650f8e823ccdfac198e"
+  integrity sha512-PrWWNH3yL2NYIb/7WF/5vFG3DCQiXDOVf8k3ijatbrtnwNuhMWLC7YF7uqf53tbTFDzHIUD8oITw4Bxt8ST3Nw==
+  dependencies:
+    node-fetch "2.1.2"
+    whatwg-fetch "2.0.4"
+
 cross-spawn@6.0.5, cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
@@ -2823,6 +2847,11 @@ destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
+
+detect-browser@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/detect-browser/-/detect-browser-3.0.1.tgz#39beead014347a8a2be1f3c4cb30a0aef2127c44"
+  integrity sha512-L6b76EfUxnoxGHM5Vz7nrshQPIbOHtitDWpGufrp5srQdJrEYi1xpUVZeFbfssWAJvUWo/iDIVlz8hOP4Z8OCw==
 
 detect-indent@^4.0.0:
   version "4.0.0"
@@ -5807,6 +5836,11 @@ loglevel@^1.4.1:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.1.tgz#e0fc95133b6ef276cdc8887cdaf24aa6f156f8fa"
   integrity sha1-4PyVEztu8nbNyIh82vJKpvFW+Po=
 
+long@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
+  integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
+
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
@@ -6133,6 +6167,48 @@ mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@
   dependencies:
     minimist "0.0.8"
 
+mongodb-stitch-browser-core@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/mongodb-stitch-browser-core/-/mongodb-stitch-browser-core-4.1.1.tgz#0194479a3abe06ebb67e6e10a52d4f9763d928d6"
+  integrity sha512-vqNC2kQBRVm8UO0KIjsHet+iazjrSDfItKjV0Eu7Z8emy8Ui50pMbKQO3Naa1dZ1wZHXPiA1DKxu5r2Gs+DCUQ==
+  dependencies:
+    bson "4.0.0"
+    detect-browser "^3.0.0"
+    mongodb-stitch-core-sdk "^4.1.1"
+
+mongodb-stitch-browser-sdk@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/mongodb-stitch-browser-sdk/-/mongodb-stitch-browser-sdk-4.1.1.tgz#22d87bd43c55fad4b074dcad95b0c6bf9ea6fe25"
+  integrity sha512-emf6qr7O9lllbSzFBy7LXXe7ny8olvag/bNPcU2XIN5Ah7zcmbT7kFAoc5vlGHBQ2wfntTfGoNu63rrNNnvWoA==
+  dependencies:
+    mongodb-stitch-browser-core "^4.1.1"
+    mongodb-stitch-browser-services-mongodb-remote "^4.1.1"
+
+mongodb-stitch-browser-services-mongodb-remote@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/mongodb-stitch-browser-services-mongodb-remote/-/mongodb-stitch-browser-services-mongodb-remote-4.1.1.tgz#f68b371a6b0f96b2fca52a28366c262640dcb495"
+  integrity sha512-Pp4/SZbAmzSKIZHNvpFk7p58VTzulLYbS/AmZLK+nR5EY7x6G/6pqN5ckTqdex9W/xOT3UFT9dvcOgqPFlRyeQ==
+  dependencies:
+    mongodb-stitch-browser-core "^4.1.1"
+    mongodb-stitch-core-services-mongodb-remote "^4.1.1"
+
+mongodb-stitch-core-sdk@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/mongodb-stitch-core-sdk/-/mongodb-stitch-core-sdk-4.1.1.tgz#de09a4bcdc3f16338d163fa486686d2856b34e16"
+  integrity sha512-fNxKeSx9K91wx4TuKf7amxwsmL1qPekbKCDPLMbq0Bh2e7SfPvC3zLrP9looGCFgEY9Zphx7MmPjzcpEcvHplA==
+  dependencies:
+    base64-js "^1.3.0"
+    bson "4.0.0"
+    cross-fetch "^2.2.3"
+
+mongodb-stitch-core-services-mongodb-remote@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/mongodb-stitch-core-services-mongodb-remote/-/mongodb-stitch-core-services-mongodb-remote-4.1.1.tgz#1697142b4ea97107dafe77d73b17df78de4d3cee"
+  integrity sha512-K7Yp3Uv5KMaX1yFzskK1IVt1UYhz9KTT7Eej9Cficz/szr09v4/vo0iUPXKRf+zDLW8K2ly+0K320y0cbKoORA==
+  dependencies:
+    bson "4.0.0"
+    mongodb-stitch-core-sdk "^4.1.1"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -6230,6 +6306,11 @@ no-case@^2.2.0:
   integrity sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==
   dependencies:
     lower-case "^1.1.1"
+
+node-fetch@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.1.2.tgz#ab884e8e7e57e38a944753cec706f788d1768bb5"
+  integrity sha1-q4hOjn5X44qUR1POxwb3iNF2i7U=
 
 node-forge@0.7.5:
   version "0.7.5"
@@ -9659,6 +9740,11 @@ whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3, whatwg-encoding@^1.0.5:
   integrity sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==
   dependencies:
     iconv-lite "0.4.24"
+
+whatwg-fetch@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz#dde6a5df315f9d39991aa17621853d720b85566f"
+  integrity sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng==
 
 whatwg-fetch@3.0.0:
   version "3.0.0"
