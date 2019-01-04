@@ -1,0 +1,235 @@
+#sign-in {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+}
+#account {
+  padding: 0.5rem 1rem 3rem;
+}
+.title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+.subtitle {
+  margin: 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.25;
+}
+.button {
+  display: block;
+  margin: 1rem auto;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  letter-spacing: 0.025rem;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  align-items: flex-start;
+  text-align: center;
+}
+.sign-in-button {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.25);
+}
+.sign-in-button .icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-right: 0.25rem;
+  flex-shrink: 0;
+}
+.sign-in-button.facebook-sign-in {
+  background-color: #4267b2;
+  color: #fff;
+}
+.sign-in-button-text {
+  font-size: 1rem;
+  min-width: 14rem;
+}
+.actions {
+  display: flex;
+  justify-content: space-around;
+}
+.actions .button {
+  border: 1px solid rgba(0, 0, 0, 0.42);
+  border-radius: 1.5rem;
+  padding: 0.5rem 1rem;
+  line-height: calc(1.5rem - 1px);
+}
+.actions .button:hover {
+  border-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(200, 200, 200, 0.1);
+}
+.actions .button:focus,
+.actions .button:active {
+  opacity: 0.8;
+  box-shadow: 0 0 0 0.125rem rgba(0, 0, 0, 0.12);
+}
+.account-form-group {
+  margin: 1rem 0 0;
+}
+.show-age-group {
+  display: flex;
+  align-items: center;
+}
+label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+input[type="text"],
+input[type="number"],
+textarea {
+  display: block;
+  width: 100%;
+  height: 2rem;
+  padding: 0 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+}
+textarea {
+  resize: none;
+  width: 100% !important;
+  height: 5rem !important;
+  padding: 0.125rem 0.5rem;
+}
+input:hover,
+textarea:hover {
+  border-color: #aaa;
+}
+input[readonly] {
+  background-color: rgba(220, 220, 220, 0.1);
+}
+input[type="text"]:disabled {
+  background-color: #f0f0f0;
+}
+.identities-input-label {
+  margin-top: 3px;
+}
+.input-helper-text {
+  font-size: 0.875rem;
+  color: #777;
+  margin: 0.25rem 0 0 0;
+}
+.show-age-group input {
+  margin: 0.125rem 0 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+.show-age-group label {
+  margin: 0 0 0 0.25rem;
+  cursor: pointer;
+}
+.identity-chips {
+  padding: 1rem 0.5rem;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+}
+.chip {
+  padding: 0 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  border-radius: 0.75rem;
+  margin: 0 0.4rem 0.4rem 0;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.chip-span {
+  flex: 1 1 auto;
+  height: 1.5rem;
+  line-height: calc(1.5rem - 1px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.links-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 1rem 0 0 0;
+}
+.links-group .account-form-group:last-child {
+  margin: 0.5rem 0 0 0;
+}
+.add-link {
+  margin: 1rem auto 0.125rem auto;
+  border: 1px solid #198bed;
+  color: #198bed;
+  padding: 0.4rem 0.8rem;
+  box-shadow: none;
+}
+.add-link:hover,
+.add-link:focus,
+.add-link:active {
+  background-color: rgba(25, 139, 237, 0.05);
+}
+.save {
+  background-color: #198bed;
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 1.25rem;
+  font-weight: 600;
+  line-height: calc(1.5rem - 1px);
+}
+.save:hover,
+.save:focus,
+.save:active {
+  background-color: rgba(25, 139, 237, 0.8);
+}
+@media screen and (min-width: 480px) {
+  .account-form-group {
+    display: flex;
+    align-items: center;
+  }
+  .identities-group {
+    align-items: flex-start;
+  }
+  label {
+    margin-right: 0.5rem;
+    margin-bottom: 0;
+    min-width: 5rem;
+  }
+  .links-group label {
+    min-width: 3rem;
+  }
+  .age-group {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .show-age-group {
+    order: 1;
+    margin-left: 1.5rem;
+  }
+  .input-helper-text {
+    margin-left: 5.5rem;
+  }
+  .new-link-group,
+  .link-item {
+    display: flex;
+  }
+  .links-group .account-form-group {
+    flex: 1 1 auto;
+  }
+  .links-group .account-form-group:last-child {
+    margin: 1rem 0 0 0.75rem;
+  }
+}

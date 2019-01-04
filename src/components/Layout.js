@@ -13,7 +13,7 @@ export default ({ children }) => (
           </Link>
         </div>
         <div className="nav-link-c nav-right">
-          <Link to="/" className="nav-link">
+          <Link to="/account" className="nav-link">
             <AccountIcon />
           </Link>
         </div>

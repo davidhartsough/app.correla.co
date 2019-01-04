@@ -15,23 +15,18 @@ export default class Person extends React.Component {
   };
 
   componentDidMount() {
-    const { match } = this.props;
-    const { username } = match.params;
-    if (username && username.length) {
-      const client = Stitch.defaultAppClient;
-      const db = client
-        .getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
-        .db("correla");
-      const people = db.collection("people");
-      if (client.auth.isLoggedIn) {
-        this.getPerson(people, username);
-      } else {
-        client.auth.loginWithCredential(new AnonymousCredential()).then(() => {
-          this.getPerson(people, username);
-        });
-      }
+    const { username } = this.props.match.params;
+    const client = Stitch.defaultAppClient;
+    const db = client
+      .getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
+      .db("correla");
+    const people = db.collection("people");
+    if (client.auth.isLoggedIn) {
+      this.getPerson(people, username);
     } else {
-      this.setState({ hasLoaded: true });
+      client.auth.loginWithCredential(new AnonymousCredential()).then(() => {
+        this.getPerson(people, username);
+      });
     }
   }
 
@@ -74,8 +69,8 @@ export default class Person extends React.Component {
           person ? (
             <Profile
               name={person.name}
-              birthday={person.birthday}
-              location={person.locationName}
+              birthday={person.showAge ? person.birthday : false}
+              locationName={person.locationName}
               identities={person.identities || []}
               email={person.email}
               links={person.links || []}

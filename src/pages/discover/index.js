@@ -8,12 +8,6 @@ import Layout from "../../components/Layout";
 import Loader from "../../components/Loader";
 import People from "./People";
 
-const getMilliseconds = age => {
-  const d = new Date();
-  d.setFullYear(d.getFullYear() - age);
-  return d.getTime();
-};
-
 export default class Person extends React.Component {
   state = {
     people: false
@@ -25,8 +19,6 @@ export default class Person extends React.Component {
     const searchParams = {
       name: urlSearchParams.get("name"),
       identities: urlSearchParams.get("identities"),
-      min: urlSearchParams.get("min"),
-      max: urlSearchParams.get("max"),
       nearMe: urlSearchParams.get("nearMe"),
       lat: urlSearchParams.get("lat"),
       lon: urlSearchParams.get("lon")
@@ -49,25 +41,6 @@ export default class Person extends React.Component {
           .split(",")
           .map(i => i.trim())
       };
-    }
-    const hasMin =
-      searchParams.min &&
-      searchParams.min.length &&
-      !isNaN(Number(searchParams.min));
-    const hasMax =
-      searchParams.max &&
-      searchParams.max.length &&
-      !isNaN(Number(searchParams.max));
-    if (hasMin || hasMax) {
-      query["birthday"] = {};
-      if (hasMin) {
-        const minAge = Number(searchParams.min);
-        query["birthday"]["$gte"] = getMilliseconds(minAge);
-      }
-      if (hasMax) {
-        const maxAge = Number(searchParams.max);
-        query["birthday"]["$lte"] = getMilliseconds(maxAge);
-      }
     }
     if (
       searchParams.nearMe === "true" &&
@@ -114,7 +87,6 @@ export default class Person extends React.Component {
       })
       .asArray()
       .then(people => {
-        console.log(people);
         this.setState({ people });
       });
   };

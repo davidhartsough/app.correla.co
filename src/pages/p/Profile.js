@@ -1,5 +1,6 @@
 import React from "react";
-// import EmailIcon from "./EmailIcon";
+import CakeIcon from "../../components/CakeIcon";
+import PlaceIcon from "../../components/PlaceIcon";
 import "./Profile.css";
 
 const calculateAge = birthday => {
@@ -7,52 +8,27 @@ const calculateAge = birthday => {
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 };
 
-/*
-const urlPrettify = url => {
-  const wwwIndex = url.indexOf("://www.");
-  const index = wwwIndex > 0 ? wwwIndex + 7 : url.indexOf("://") + 3;
-  const trimmedUrl = url.substring(index);
-  if (trimmedUrl.length > 40) {
-    return `${trimmedUrl.substr(0, 39)}...`;
-  }
-  if (trimmedUrl.lastIndexOf("/") === trimmedUrl.length - 1) {
-    return trimmedUrl.slice(0, -1);
-  }
-  return trimmedUrl;
-};
-const IconLinkChip = ({ link, icon }) => (
-  <a
-    className="link-chip icon-link-chip"
-    href={link}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    {icon}
-    <span className="chip-span">{urlPrettify(link)}</span>
-  </a>
-);
-*/
-
-const getHumanDetails = birthday => {
-  if (!birthday) {
-    return "Human person";
-  }
-  return `${calculateAge(birthday)}-year-old human`;
-};
-
-export default ({ name, birthday, location, identities, email, links }) => (
+export default ({ name, birthday, locationName, identities, email, links }) => (
   <>
     <section id="profile">
       <h1 id="name">{name}</h1>
+      {(!!birthday || !!locationName) && (
+        <h2 className="sub">
+          {!!birthday && (
+            <span className="sub-span">
+              <CakeIcon />
+              {calculateAge(birthday)}
+            </span>
+          )}
+          {!!locationName && (
+            <span className="sub-span">
+              <PlaceIcon />
+              {locationName}
+            </span>
+          )}
+        </h2>
+      )}
       <div id="identities" className="chips">
-        <div className="chip">
-          <span className="chip-span">{getHumanDetails(birthday)}</span>
-        </div>
-        {!!location && (
-          <div className="chip">
-            <span className="chip-span">{location}</span>
-          </div>
-        )}
         {identities.map((identity, index) => (
           <div key={`${identity}-${index}`} className="chip">
             <span className="chip-span">{identity}</span>
@@ -60,6 +36,8 @@ export default ({ name, birthday, location, identities, email, links }) => (
         ))}
       </div>
     </section>
+    {(!!email || !!links.length) &&
+      !!identities.length && <hr className="hr" />}
     {(!!email || !!links.length) && (
       <section id="links" className="chips">
         {!!email && (

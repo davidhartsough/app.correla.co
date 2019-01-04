@@ -10,6 +10,7 @@ export default {
         type: "Point",
         coordinates: [-116.2032629, 43.632513]
       },
+      showAge: true,
       birthday: 765072000000,
       email: "hartsoughdavid@gmail.com",
       identitiesSearch: [
@@ -38,8 +39,7 @@ export default {
         "Writer",
         "Videographer",
         "Designer",
-        "Stuntman",
-        "EMEMWMEMWEMWEMWEMWEMWEMWEMWEMEMEMWMEMMWMWMWMWEMEEEEMWEWEM"
+        "Stuntman"
       ],
       links: [
         {
@@ -88,7 +88,8 @@ export default {
       id: "321",
       nameSearch: ["JOEL", "HARTSOUGH"],
       name: "Joel Hartsough",
-      username: "joel"
+      username: "joel",
+      showAge: false
     }
   }
 };

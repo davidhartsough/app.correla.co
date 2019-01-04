@@ -1,0 +1,49 @@
+{
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "uid": {
+      "bsonType": "string"
+    },
+    "name": {
+      "bsonType": "string"
+    },
+    "nameSearch": {
+      "bsonType": "array"
+    },
+    "username": {
+      "bsonType": "string"
+    },
+    "locationName": {
+      "bsonType": "string"
+    },
+    "location": {
+      "bsonType": "object"
+    },
+    "showAge": {
+      "bsonType": "bool"
+    },
+    "birthday": {
+      "bsonType": "date"
+    },
+    "_birthday": {
+      "bsonType": "string"
+    },
+    "email": {
+      "bsonType": "string"
+    },
+    "identities": {
+      "bsonType": "array"
+    },
+    "identitiesSearch": {
+      "bsonType": "array"
+    },
+    "links": {
+      "bsonType": "array"
+    },
+    "pictureUrl": {
+      "bsonType": "string"
+    }
+  }
+}

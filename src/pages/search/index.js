@@ -8,13 +8,12 @@ export default class Search extends React.Component {
   state = {
     name: "",
     identities: "",
-    min: "",
-    max: "",
     nearMe: false,
     showNearMe: !!window.navigator.geolocation,
     requestCoords: false,
     loadingCoords: false,
-    coords: false
+    coords: false,
+    locationErrorMessage: ""
   };
 
   handleInputChange = ({ target }) => {
@@ -31,12 +30,10 @@ export default class Search extends React.Component {
         requestCoords: true,
         nearMe
       });
-      window.navigator.geolocation.getCurrentPosition(({ coords }) => {
-        this.setState({
-          coords,
-          loadingCoords: false
-        });
-      });
+      window.navigator.geolocation.getCurrentPosition(
+        this.getLocation,
+        this.handleLocationError
+      );
       return;
     }
     if (!nearMe && requestCoords && loadingCoords) {
@@ -49,20 +46,43 @@ export default class Search extends React.Component {
     this.setState({ nearMe });
   };
 
+  getLocation = ({ coords }) => {
+    this.setState({
+      coords,
+      loadingCoords: false
+    });
+  };
+
+  handleLocationError = error => {
+    let locationErrorMessage = "An error occurred while getting your location.";
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        locationErrorMessage = "You've denied requests for your location.";
+        break;
+      case error.POSITION_UNAVAILABLE:
+        locationErrorMessage = "Location information is unavailable.";
+        break;
+      case error.TIMEOUT:
+        locationErrorMessage = "The request to get your location timed out.";
+        break;
+      default:
+        break;
+    }
+    this.setState({
+      locationErrorMessage,
+      nearMe: false,
+      loadingCoords: false
+    });
+  };
+
   getSearch = () => {
-    const { name, identities, min, max, nearMe, coords } = this.state;
+    const { name, identities, nearMe, coords } = this.state;
     let linkTo = "?";
     if (name) {
       linkTo += `name="${name.trim()}"&`;
     }
     if (identities) {
       linkTo += `identities="${identities.trim()}"&`;
-    }
-    if (min) {
-      linkTo += `min=${min}&`;
-    }
-    if (max) {
-      linkTo += `max=${max}&`;
     }
     if (nearMe && coords) {
       linkTo += `nearMe=${nearMe}&lat=${coords.latitude}&lon=${
@@ -76,13 +96,12 @@ export default class Search extends React.Component {
     const {
       name,
       identities,
-      min,
-      max,
       nearMe,
       showNearMe,
       loadingCoords,
       requestCoords,
-      coords
+      coords,
+      locationErrorMessage
     } = this.state;
     return (
       <Layout>
@@ -91,10 +110,10 @@ export default class Search extends React.Component {
           <h2 className="subtitle">Find amazing people.</h2>
           <div className="search-form">
             <div className="search-form-group">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name-input">Name</label>
               <input
                 type="text"
-                id="name"
+                id="name-input"
                 name="name"
                 placeholder="Name"
                 value={name}
@@ -117,36 +136,6 @@ export default class Search extends React.Component {
             <p className="input-helper-text">
               Separate identities with a comma.
             </p>
-            <div className="search-form-group age-group">
-              <label htmlFor="min">Age</label>
-              <div className="age-range">
-                <input
-                  type="number"
-                  id="min"
-                  name="min"
-                  placeholder="Min"
-                  step={1}
-                  min={1}
-                  max={max || 99}
-                  value={min}
-                  onChange={this.handleInputChange}
-                />
-                <label htmlFor="max" className="dash">
-                  &ndash;
-                </label>
-                <input
-                  type="number"
-                  id="max"
-                  name="max"
-                  placeholder="Max"
-                  step={1}
-                  min={min || 1}
-                  max={99}
-                  value={max}
-                  onChange={this.handleInputChange}
-                />
-              </div>
-            </div>
             {showNearMe && (
               <>
                 <div className="search-form-group near-me-group">
@@ -171,7 +160,7 @@ export default class Search extends React.Component {
                     : requestCoords
                       ? !!coords
                         ? "Location received."
-                        : "Location request denied."
+                        : locationErrorMessage
                       : "This option will ask for your location."}
                 </div>
               </>

@@ -9,6 +9,8 @@ import Layout from "../../components/Layout";
 import Loader from "../../components/Loader";
 import GoogleIcon from "../../components/GoogleIcon";
 import FacebookIcon from "../../components/FacebookIcon";
+import AccountPage from "./Account";
+import "./Account.css";
 
 const getName = (name, fname, lname) => {
   if (name && name.length) {
@@ -44,23 +46,38 @@ export default class Account extends React.Component {
   }
 
   componentDidMount() {
-    console.log("Account mounted");
     if (this.client.auth.isLoggedIn) {
-      this.getAccount();
+      if (this.client.auth.user.loggedInProviderType === "anon-user") {
+        this.signOut();
+      } else {
+        this.getAccount();
+      }
     }
     if (this.client.auth.hasRedirectResult()) {
-      this.client.auth.handleRedirectResult().then(() => {
-        this.getAccount();
-      });
+      this.client.auth
+        .handleRedirectResult()
+        .then(result => {
+          console.log(result);
+          this.getAccount();
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 
   getAccount = () => {
     this.people
-      .find({ uid: this.client.auth.user.id }, { limit: 1 })
+      .find(
+        {
+          uid: this.client.auth.user.id
+        },
+        {
+          limit: 1
+        }
+      )
       .first()
       .then(person => {
-        console.log(person);
         if (person) {
           this.setState({ person });
         } else {
@@ -78,19 +95,34 @@ export default class Account extends React.Component {
         uid,
         name,
         nameSearch: name.length ? name.toUpperCase().split(" ") : [],
-        username: name.length ? `${name}-${uid}` : uid,
+        username: name.length
+          ? `${name.toLowerCase().replace(/ /g, "-")}-${uid}`
+          : uid,
         birthday:
           p.birthday && p.birthday.length
             ? new Date(p.birthday).getTime()
             : null,
         _birthday: p.birthday && p.birthday.length ? p.birthday : null,
+        showAge: !!(p.birthday && p.birthday.length),
         email: p.email && p.email.length ? p.email : null,
         identitiesSearch: [],
         identities: [],
         links: [],
         pictureUrl: p.pictureUrl && p.pictureUrl.length ? p.pictureUrl : null
       })
-      .then(person => this.setState({ person }));
+      .then(({ insertedId }) => {
+        this.people
+          .find(
+            {
+              _id: insertedId
+            },
+            {
+              limit: 1
+            }
+          )
+          .first()
+          .then(person => this.setState({ person }));
+      });
   };
 
   signInWithGoogle = () => {
@@ -101,11 +133,28 @@ export default class Account extends React.Component {
     this.client.auth.loginWithRedirect(new FacebookRedirectCredential());
   };
 
+  signOut = () => {
+    this.client.auth.logout().then(() => this.setState({ person: null }));
+  };
+
   render() {
     const { person } = this.state;
     if (this.client.auth.isLoggedIn) {
       if (person) {
-        return <Layout>{person.id}</Layout>;
+        return (
+          <Layout>
+            <AccountPage
+              person={person}
+              signOut={this.signOut}
+              people={this.people}
+            />
+            <div className="logout-section">
+              <button className="button logout" onClick={this.signOut}>
+                Sign out
+              </button>
+            </div>
+          </Layout>
+        );
       } else {
         return (
           <Layout>
@@ -120,24 +169,23 @@ export default class Account extends React.Component {
       <Layout>
         <div id="sign-in">
           <div className="center">
-            <h1>Sign in</h1>
-            <div className="sign-in-buttons">
-              <button
-                className="sign-in-button google-sign-in"
-                onClick={this.signInWithGoogle}
-              >
-                <GoogleIcon />
-                <span className="sign-in-button-text">Use Google</span>
-              </button>
-              <div className="or">or</div>
-              <button
-                className="sign-in-button facebook-sign-in"
-                onClick={this.signInWithFacebook}
-              >
-                <FacebookIcon />
-                <span className="sign-in-button-text">Use Facebook</span>
-              </button>
-            </div>
+            <h1 className="title">Sign in</h1>
+            <button
+              className="button sign-in-button google-sign-in"
+              onClick={this.signInWithGoogle}
+            >
+              <GoogleIcon />
+              <span className="sign-in-button-text">Continue with Google</span>
+            </button>
+            <button
+              className="button sign-in-button facebook-sign-in"
+              onClick={this.signInWithFacebook}
+            >
+              <FacebookIcon />
+              <span className="sign-in-button-text">
+                Continue with Facebook
+              </span>
+            </button>
           </div>
         </div>
       </Layout>

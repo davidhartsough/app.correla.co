@@ -8,7 +8,7 @@ export default ({ people }) => (
     {!!people.length ? (
       <div className="people-list">
         {people.map(person => (
-          <Person key={person.id} person={person} />
+          <Person key={person.username} person={person} />
         ))}
       </div>
     ) : (
