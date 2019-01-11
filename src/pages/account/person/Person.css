@@ -1,62 +1,3 @@
-#sign-in {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  text-align: center;
-}
-#account {
-  padding: 0.5rem 1rem 3rem;
-}
-.title {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 300;
-  margin-bottom: 0.75rem;
-  line-height: 1.25;
-}
-.subtitle {
-  margin: 0.5rem 0;
-  font-size: 1.25rem;
-  font-weight: 300;
-  line-height: 1.25;
-}
-.button {
-  display: block;
-  margin: 1rem auto;
-  font-size: 1rem;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 0.25rem;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.8);
-  font-weight: 500;
-  letter-spacing: 0.025rem;
-  cursor: pointer;
-  outline: none;
-  text-decoration: none;
-  align-items: flex-start;
-  text-align: center;
-}
-.sign-in-button {
-  display: flex;
-  align-items: center;
-  box-shadow: 0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.25);
-}
-.sign-in-button .icon {
-  width: 1.125rem;
-  height: 1.125rem;
-  margin-right: 0.25rem;
-  flex-shrink: 0;
-}
-.sign-in-button.facebook-sign-in {
-  background-color: #4267b2;
-  color: #fff;
-}
-.sign-in-button-text {
-  font-size: 1rem;
-  min-width: 14rem;
-}
 .actions {
   display: flex;
   justify-content: space-around;
@@ -118,10 +59,7 @@ input[readonly] {
 input[type="text"]:disabled {
   background-color: #f0f0f0;
 }
-.identities-input-label {
-  margin-top: 3px;
-}
-.input-helper-text {
+.identities-input-helper-text {
   font-size: 0.875rem;
   color: #777;
   margin: 0.25rem 0 0 0;
@@ -137,7 +75,7 @@ input[type="text"]:disabled {
   cursor: pointer;
 }
 .identity-chips {
-  padding: 1rem 0.5rem;
+  padding: 1rem 0.5rem 0;
 }
 .chips {
   display: flex;
@@ -162,38 +100,55 @@ input[type="text"]:disabled {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.links-title {
+.form-group-title {
   font-size: 1.125rem;
   font-weight: 500;
-  margin: 1rem 0 0 0;
+  margin: 1.75rem 0 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
 }
 .links-group .account-form-group:last-child {
   margin: 0.5rem 0 0 0;
 }
-.add-link {
-  margin: 1rem auto 0.125rem auto;
-  border: 1px solid #198bed;
-  color: #198bed;
-  padding: 0.4rem 0.8rem;
+.button.add-link {
+  margin: 1rem auto 0.5rem auto;
+  border: 1px solid #757575;
+  color: #666;
+  padding: 0.5rem 1rem;
   box-shadow: none;
+  border-radius: 1.25rem;
 }
-.add-link:hover,
-.add-link:focus,
-.add-link:active {
-  background-color: rgba(25, 139, 237, 0.05);
+.button.add-link:hover,
+.button.add-link:active {
+  border-color: #555;
+  color: #444;
 }
-.save {
+.button.add-link:focus {
+  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.05);
+  border-color: #555;
+  color: #444;
+}
+.empty-link-list {
+  margin-bottom: 1rem;
+}
+.empty-identities {
+  margin: 1rem 0;
+}
+.button.save {
   background-color: #198bed;
   color: #fff;
   padding: 0.5rem 1.5rem;
   border-radius: 1.25rem;
   font-weight: 600;
   line-height: calc(1.5rem - 1px);
+  width: 6rem;
 }
-.save:hover,
-.save:focus,
-.save:active {
+.button.save:hover,
+.button.save:active {
   background-color: rgba(25, 139, 237, 0.8);
+}
+.button.save:focus {
+  box-shadow: 0 0 0 0.25rem rgba(25, 139, 237, 0.25);
 }
 @media screen and (min-width: 480px) {
   .account-form-group {
@@ -218,9 +173,6 @@ input[type="text"]:disabled {
   .show-age-group {
     order: 1;
     margin-left: 1.5rem;
-  }
-  .input-helper-text {
-    margin-left: 5.5rem;
   }
   .new-link-group,
   .link-item {

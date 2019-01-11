@@ -1,0 +1,49 @@
+#create-profile {
+  text-align: center;
+}
+.congrats {
+  /*  */
+}
+input.username-input {
+  display: block;
+  width: 100%;
+  height: 2rem;
+  padding: 0 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  max-width: 17rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.username-input:hover {
+  border-color: #aaa;
+}
+.username-helper-text {
+  font-size: 0.875rem;
+  color: #777;
+}
+.button.next {
+  text-align: center;
+  display: block;
+  margin: 1.5rem auto 2rem;
+  background-color: #198bed;
+  color: #fff;
+  padding: 0.5rem 0;
+  border-radius: 1.25rem;
+  font-weight: 600;
+  font-size: 1rem;
+  width: 6.5rem;
+  line-height: calc(1.5rem - 1px);
+  user-select: none;
+  letter-spacing: 0.025rem;
+}
+.button.next:hover,
+.button.next:active {
+  opacity: 0.9;
+}
+.button.next:focus {
+  box-shadow: 0 0 0 0.25rem rgba(25, 139, 237, 0.25);
+}

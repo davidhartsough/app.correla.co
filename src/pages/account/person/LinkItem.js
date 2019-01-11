@@ -23,7 +23,7 @@ export default class LinkItem extends React.Component {
   };
 
   render() {
-    const { index, isEditing } = this.props;
+    const { index } = this.props;
     const { name, url } = this.state;
     return (
       <div className="link-item">
@@ -37,7 +37,6 @@ export default class LinkItem extends React.Component {
             value={name}
             maxLength="120"
             onChange={this.handleInputChange}
-            readOnly={!isEditing}
           />
         </div>
         <div className="account-form-group">
@@ -49,7 +48,6 @@ export default class LinkItem extends React.Component {
             placeholder="URL"
             value={url}
             onChange={this.handleInputChange}
-            readOnly={!isEditing}
           />
         </div>
       </div>

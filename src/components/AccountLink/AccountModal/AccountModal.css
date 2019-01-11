@@ -1,0 +1,56 @@
+.account-modal-container {
+  position: relative;
+}
+.account-modal {
+  position: absolute;
+  display: block;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: auto;
+  max-width: 8rem;
+  background: #fff;
+  border-radius: 2px;
+  padding: 0.5rem 0;
+  z-index: -99;
+  -webkit-transform: scale(0) translateZ(0px);
+  transform: scale(0) translateZ(0px);
+  -webkit-transform-origin: 100% 0;
+  transform-origin: 100% 0;
+  will-change: transform;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  visibility: hidden;
+  opacity: 0;
+}
+.account-modal.open {
+  z-index: 99;
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1) translateZ(0px);
+  width: 8rem;
+}
+.modal-item {
+  display: block;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  width: auto;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  outline: none;
+}
+.modal-item:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+#modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 9;
+}

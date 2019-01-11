@@ -1,0 +1,95 @@
+header {
+  display: block;
+  background-color: #198bed;
+  padding: 0 0.5rem;
+}
+nav {
+  display: flex;
+}
+.nav-link-c {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+}
+.nav-link {
+  display: block;
+  color: #fff;
+  fill: #fff;
+  height: 2.5rem;
+  padding: 0.5rem;
+  margin: 0.25rem 0.5rem;
+  text-decoration: none;
+  font-size: 1.5rem;
+  line-height: calc(1.5rem - 1px);
+  cursor: pointer;
+}
+.nav-right {
+  justify-content: flex-end;
+}
+.account-loader {
+  height: 2.5rem;
+  padding: 0.5rem;
+  margin: 0.25rem 0.5rem;
+}
+.account-loader .loader {
+  border-color: rgba(255, 255, 255, 0.42);
+  border-top-color: #fff;
+}
+main {
+  max-width: 720px;
+  margin: auto;
+}
+section {
+  padding: 1rem;
+}
+.title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 300;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+.subtitle {
+  margin: 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 1.25;
+}
+
+.button {
+  display: block;
+  margin: 1rem auto;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  letter-spacing: 0.025rem;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.page-loader {
+  padding: 2rem;
+}
+.loader {
+  margin: auto;
+  border: 0.25rem solid #ccc;
+  border-top: 0.25rem solid #198bed;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

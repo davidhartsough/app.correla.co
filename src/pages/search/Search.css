@@ -1,19 +1,3 @@
-#search {
-  padding: 0.5rem 1rem 1rem;
-}
-.title {
-  margin: 0;
-  font-size: 1.75rem;
-  font-weight: 300;
-  margin-bottom: 0.75rem;
-  line-height: 1.25;
-}
-.subtitle {
-  margin: 0.5rem 0;
-  font-size: 1.25rem;
-  font-weight: 300;
-  line-height: 1.25;
-}
 .search-link {
   text-align: center;
   display: block;
@@ -38,7 +22,6 @@
   box-shadow: 0 0 0 0.25rem rgba(25, 139, 237, 0.25);
 }
 .search-link[disabled] {
-  opacity: 0.5;
   pointer-events: none;
 }
 .search-form-group {

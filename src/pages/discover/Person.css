@@ -11,7 +11,7 @@
   border-bottom: none;
 }
 .person-item:hover {
-  background-color: #eee;
+  background-color: rgba(0, 0, 0, 0.02);
 }
 .person-item-section {
   flex: 1 1 auto;
