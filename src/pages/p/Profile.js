@@ -8,49 +8,37 @@ const calculateAge = birthday => {
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 };
 
-export default ({ name, birthday, locationName, identities, email, links }) => (
-  <>
-    <section id="profile">
-      <h1 id="name">{name}</h1>
-      {(!!birthday || !!locationName) && (
-        <h2 className="sub">
-          {!!birthday && (
-            <span className="sub-span">
-              <CakeIcon />
-              {calculateAge(birthday)}
-            </span>
-          )}
-          {!!locationName && (
-            <span className="sub-span">
-              <PlaceIcon />
-              {locationName}
-            </span>
-          )}
-        </h2>
-      )}
-      <div id="identities" className="chips">
+export default ({ name, birthday, locationName, identities, links }) => (
+  <section id="profile">
+    <h1 id="name-heading">{name}</h1>
+    {(!!birthday || !!locationName) && (
+      <h2 id="sub-heading">
+        {!!birthday && (
+          <span className="sub-span flex-align-center">
+            <CakeIcon />
+            {calculateAge(birthday)}
+          </span>
+        )}
+        {!!locationName && (
+          <span className="sub-span flex-align-center">
+            <PlaceIcon />
+            {locationName}
+          </span>
+        )}
+      </h2>
+    )}
+    {!!identities && (
+      <div id="identities" className="chips profile-section">
         {identities.map((identity, index) => (
           <div key={`${identity}-${index}`} className="chip">
             <span className="chip-span">{identity}</span>
           </div>
         ))}
       </div>
-    </section>
-    {(!!email || !!links.length) &&
-      !!identities.length && <hr className="hr" />}
-    {(!!email || !!links.length) && (
-      <section id="links" className="chips">
-        {!!email && (
-          <a
-            id="email"
-            className="link-chip"
-            href={`mailto:${email}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className="chip-span">{email}</span>
-          </a>
-        )}
+    )}
+    {!!links && !!identities && <hr />}
+    {!!links && (
+      <div id="links" className="chips profile-section">
         {links.map(({ name, url }, index) => (
           <a
             className="link-chip"
@@ -62,7 +50,7 @@ export default ({ name, birthday, locationName, identities, email, links }) => (
             <span className="chip-span">{name}</span>
           </a>
         ))}
-      </section>
+      </div>
     )}
-  </>
+  </section>
 );

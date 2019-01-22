@@ -17,6 +17,7 @@ export const fetchProfile = username => dispatch => {
         projection: {
           name: 1,
           birthday: 1,
+          showAge: 1,
           locationName: 1,
           identities: 1,
           email: 1,

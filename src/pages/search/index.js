@@ -106,8 +106,8 @@ export default class Search extends React.Component {
       <section id="search">
         <h1 className="title">Discover</h1>
         <h2 className="subtitle">Find amazing people.</h2>
-        <div className="search-form">
-          <div className="search-form-group">
+        <div id="search-form">
+          <div className="form-group">
             <label htmlFor="name-input">Name</label>
             <input
               type="text"
@@ -119,7 +119,7 @@ export default class Search extends React.Component {
               onChange={this.handleInputChange}
             />
           </div>
-          <div className="search-form-group">
+          <div className="form-group">
             <label htmlFor="identities">Identities</label>
             <input
               type="text"
@@ -131,10 +131,12 @@ export default class Search extends React.Component {
               onChange={this.handleInputChange}
             />
           </div>
-          <p className="input-helper-text">Separate identities with a comma.</p>
+          <p className="input-helper-text mtl">
+            Separate identities with a comma.
+          </p>
           {showNearMe && (
             <>
-              <div className="search-form-group near-me-group">
+              <div className="form-group flex-align-center">
                 <input
                   type="checkbox"
                   id="nearMe"
@@ -143,11 +145,13 @@ export default class Search extends React.Component {
                   onChange={this.handleCheckboxChange}
                   disabled={!loadingCoords && requestCoords && !coords}
                 />
-                <label htmlFor="nearMe">Near me</label>
+                <label className="checkbox-label mb" htmlFor="nearMe">
+                  Near me
+                </label>
               </div>
-              <div className="location-helper-text">
+              <div className="input-helper-text mz">
                 {loadingCoords && (
-                  <div className="location-loader">
+                  <div id="location-loader">
                     <Loader size={1.125} />
                   </div>
                 )}
@@ -162,7 +166,8 @@ export default class Search extends React.Component {
             </>
           )}
           <Link
-            className="search-link"
+            id="search-link"
+            className="button primary-action"
             to={{
               pathname: "/discover",
               search: this.getSearch()

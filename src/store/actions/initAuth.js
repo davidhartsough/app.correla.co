@@ -31,21 +31,18 @@ export const handleInitialAuth = auth => dispatch => {
 export const handleAuth = auth => dispatch => {
   dispatch(requestAuth());
   dispatch(requestSuggestion());
-  return auth
-    .handleRedirectResult()
-    .asArray()
-    .then(result => {
-      dispatch(
-        receiveAuth({
-          isLoggedIn: true,
-          isAnonymous: false
-        })
-      );
-      const { name, firstName, lastName } = result.profile;
-      const fullName = getName(name, firstName, lastName);
-      const suggestion = fullName.toLowerCase().replace(/ /g, "-");
-      dispatch(receiveSuggestion(suggestion));
-    });
+  return auth.handleRedirectResult().then(result => {
+    dispatch(
+      receiveAuth({
+        isLoggedIn: true,
+        isAnonymous: false
+      })
+    );
+    const { name, firstName, lastName } = result.profile;
+    const fullName = getName(name, firstName, lastName);
+    const suggestion = fullName.toLowerCase().replace(/ /g, "-");
+    dispatch(receiveSuggestion(suggestion));
+  });
 };
 
 export const loginAnonymously = auth => dispatch => {

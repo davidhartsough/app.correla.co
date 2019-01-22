@@ -12,12 +12,12 @@ export default ({ person }) => (
       </div>
       <div className="person-item-section-text person-name">{person.name}</div>
     </div>
-    {!!person.location && (
+    {!!person.locationName && (
       <div className="person-item-section person-city">
         <div className="person-item-section-icon">
           <PlaceIcon />
         </div>
-        <div className="person-item-section-text">{person.location}</div>
+        <div className="person-item-section-text">{person.locationName}</div>
       </div>
     )}
   </Link>

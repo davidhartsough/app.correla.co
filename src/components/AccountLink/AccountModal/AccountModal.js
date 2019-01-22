@@ -26,16 +26,16 @@ export default class AccountModal extends React.Component {
     if (isFetching) {
       return <AccountLoader />;
     }
-    if (Object.keys(data).length === 0) {
+    if (!data || (!!data && Object.keys(data).length === 0)) {
       return <LinkToAccount />;
     }
     return (
-      <div className="account-modal-container">
+      <div id="account-modal-container">
         <div className="nav-link" onClick={this.toggleOpen}>
           <AccountIcon />
         </div>
         {open && <div id="modal-overlay" onClick={this.toggleOpen} />}
-        <div className={`account-modal${open ? " open" : ""}`}>
+        <div id="account-modal" className={open ? "open" : ""}>
           <Link
             to={`/p/${data.username}`}
             className="modal-item"

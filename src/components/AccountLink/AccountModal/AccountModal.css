@@ -1,7 +1,7 @@
-.account-modal-container {
+#account-modal-container {
   position: relative;
 }
-.account-modal {
+#account-modal {
   position: absolute;
   display: block;
   top: 0.25rem;
@@ -24,7 +24,7 @@
   visibility: hidden;
   opacity: 0;
 }
-.account-modal.open {
+#account-modal.open {
   z-index: 99;
   visibility: visible;
   opacity: 1;

@@ -5,8 +5,9 @@ import "./People.css";
 export default ({ people }) => (
   <section id="people">
     <h1 className="title">Discover</h1>
+    <h2 className="subtitle">Find amazing people.</h2>
     {!!people.length ? (
-      <div className="people-list">
+      <div id="people-list">
         {people.map(person => (
           <Person key={person.username} person={person} />
         ))}

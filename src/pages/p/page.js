@@ -2,6 +2,19 @@ import React from "react";
 import PageLoader from "../../components/PageLoader";
 import Profile from "./Profile";
 
+const verify = data => (!!data && !!data.length ? data : false);
+
+const getLinks = (links, email) => {
+  const linkList = !!links ? links : [];
+  if (!!email) {
+    linkList.unshift({
+      name: "Email",
+      url: `mailto:${email}`
+    });
+  }
+  return linkList;
+};
+
 export default class Page extends React.Component {
   componentDidMount() {
     const { match, fetchProfile } = this.props;
@@ -16,18 +29,21 @@ export default class Page extends React.Component {
     if (isFetching) {
       return <PageLoader />;
     }
-    return Object.keys(data).length === 0 ? (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
-        {`No person found with the username "${username}".`}
-      </div>
-    ) : (
+    if (Object.keys(data).length === 0) {
+      return (
+        <div style={{ padding: "2rem", textAlign: "center" }}>
+          {`No person found with the username "${username}".`}
+        </div>
+      );
+    }
+    const links = getLinks(verify(data.links), verify(data.email));
+    return (
       <Profile
         name={data.name}
         birthday={data.showAge ? data.birthday : false}
-        locationName={data.locationName}
-        identities={data.identities}
-        email={data.email}
-        links={data.links}
+        locationName={verify(data.locationName)}
+        identities={verify(data.identities)}
+        links={verify(links)}
       />
     );
   }

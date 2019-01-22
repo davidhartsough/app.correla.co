@@ -1,11 +1,78 @@
 import React from "react";
 import DatePicker from "react-datepicker";
+import Autocomplete from "react-google-autocomplete";
 import LinkItem from "./LinkItem";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Person.css";
 
+const exampleIdentities = [
+  "Dad, Husband, Activist, Photographer, Producer, NYU alum, ENFP",
+  "Basketball player, ",
+  "Motorcyclist, "
+];
+const linkNamePlaceholder = ["Twitter", "My Website", "Facebook", "Spotify"];
+const linkUrlPlaceholder = [
+  "https://twitter.com/account",
+  "https://mywebsite.com/",
+  "https://www.facebook.com/username",
+  "https://open.spotify.com/user/account"
+];
+
 const today = new Date();
 const minDate = new Date("1901-01-01");
+const urlPattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
+// const emailPattern = /^(([^<>()[]\\.,;:\s@"]+(\.[^<>()[]\\.,;:\s@"]+)*)|(".+"))@(([a-z\-0-9]+\.)+[a-z]{2,6})$/;
+// const emailPattern = /^.+@.+$/;
+const emailPattern = /^.+@(([a-z\-0-9]+\.)+[a-z]{2,6})$/;
+
+const convertLinksToString = links =>
+  links.map(link => link.name + link.url).join();
+
+const getUpdates = (prev, next) => {
+  const updates = {};
+  if (prev.name !== next.name) {
+    updates.name = next.name;
+    updates.nameSearch = next.name.toUpperCase().split(" ");
+  }
+  if (prev.locationName !== next.locationName) {
+    updates.locationName = next.locationName;
+    updates.location = {
+      type: "Point",
+      coordinates: next.coordinates
+    };
+  }
+  if (prev.showAge !== next.showAge) {
+    updates.showAge = next.showAge;
+  }
+  const nextBday = !!next.birthdayInput ? next.birthdayInput.getTime() : false;
+  if (nextBday && prev.birthday !== nextBday) {
+    updates.birthday = nextBday;
+  }
+  if (prev.email !== next.email) {
+    updates.email = next.email;
+  }
+  const prevIdentitiesString =
+    !!prev.identities && !!prev.identities.length
+      ? prev.identities.join(", ")
+      : "";
+  if (prevIdentitiesString !== next.identitiesInput) {
+    if (next.identitiesInput.trim().length) {
+      const newIdentitiesArray = next.identitiesInput
+        .trim()
+        .split(",")
+        .map(id => id.replace(",", "").trim());
+      updates.identities = newIdentitiesArray;
+      updates.identitiesSearch = newIdentitiesArray.map(id => id.toUpperCase());
+    } else {
+      updates.identities = [];
+      updates.identitiesSearch = [];
+    }
+  }
+  if (convertLinksToString(prev.links) !== convertLinksToString(next.links)) {
+    updates.links = next.links;
+  }
+  return updates;
+};
 
 export default class Person extends React.Component {
   constructor(props) {
@@ -22,7 +89,9 @@ export default class Person extends React.Component {
         !!p.identities && p.identities.length ? p.identities.join(", ") : "",
       links: !!p.links && p.links.length ? p.links : [],
       newLinkName: "",
-      newLinkUrl: ""
+      newLinkUrl: "",
+      newLinkUrlError: false,
+      emailError: false
     };
   }
 
@@ -30,6 +99,22 @@ export default class Person extends React.Component {
     const { name, value } = target;
     this.setState({
       [name]: value
+    });
+  };
+
+  handleUrlChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+      newLinkUrlError: !urlPattern.test(value)
+    });
+  };
+
+  handleEmailChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+      emailError: !emailPattern.test(value)
     });
   };
 
@@ -74,10 +159,24 @@ export default class Person extends React.Component {
     });
   };
 
+  onPlaceSelected = place => {
+    this.setState({
+      locationName: place.formatted_address,
+      coordinates: [
+        place.geometry.location.lng(),
+        place.geometry.location.lat()
+      ]
+    });
+  };
+
   save = () => {
-    // console.log(this.state);
-    const updates = this.state;
-    this.props.updatePerson(updates);
+    const { person, updatePerson } = this.props;
+    const updates = getUpdates(person, this.state);
+    console.log(updates);
+    if (Object.keys(updates).length > 0) {
+      console.log("do it");
+      updatePerson(person._id, updates);
+    }
   };
 
   render() {
@@ -90,14 +189,16 @@ export default class Person extends React.Component {
       identitiesInput,
       links,
       newLinkName,
-      newLinkUrl
+      newLinkUrl,
+      newLinkUrlError,
+      emailError
     } = this.state;
     return (
       <section id="account">
         <h1 className="title">Account</h1>
         <h2 className="subtitle">Edit your profile.</h2>
         <div className="account-form">
-          <div className="account-form-group">
+          <div className="form-group">
             <label htmlFor="name-input">Name</label>
             <input
               type="text"
@@ -109,32 +210,36 @@ export default class Person extends React.Component {
               onChange={this.handleInputChange}
             />
           </div>
-          <div className="account-form-group">
+          <div className="form-group">
             <label htmlFor="location-input">Location</label>
-            <input
+            <Autocomplete
+              onPlaceSelected={this.onPlaceSelected}
               type="text"
               id="location-input"
               name="locationName"
               placeholder="Location"
-              value={locationName}
               maxLength="120"
-              onChange={this.handleInputChange}
+              defaultValue={locationName}
             />
           </div>
-          <div className="account-form-group">
+          <div className="form-group">
             <label htmlFor="email-input">Email</label>
             <input
-              type="text"
+              type="email"
               id="email-input"
               name="email"
+              className={`email-input${emailError ? " error" : ""}`}
               placeholder="Email"
               value={email}
               maxLength="120"
-              onChange={this.handleInputChange}
+              onChange={this.handleEmailChange}
             />
           </div>
-          <div className="age-group">
-            <div className="account-form-group show-age-group">
+          {emailError && (
+            <p className="email-input-error">Please enter a email.</p>
+          )}
+          <div id="age-group">
+            <div id="show-age-group" className="form-group flex-align-center">
               <input
                 type="checkbox"
                 id="showAge"
@@ -142,9 +247,15 @@ export default class Person extends React.Component {
                 checked={showAge}
                 onChange={this.handleCheckboxChange}
               />
-              <label htmlFor="showAge">Show age</label>
+              <label
+                id="show-age-label"
+                className="checkbox-label"
+                htmlFor="showAge"
+              >
+                Show age
+              </label>
             </div>
-            <div className="account-form-group">
+            <div className="form-group">
               <label htmlFor="birthday-input">Birthday</label>
               <DatePicker
                 id="birthday-input"
@@ -166,31 +277,40 @@ export default class Person extends React.Component {
             {links.length < 8 && (
               <div className="new-link">
                 <div className="new-link-group">
-                  <div className="account-form-group">
+                  <div className="form-group">
                     <label htmlFor="newLinkName-input">Name</label>
                     <input
                       type="text"
                       id="newLinkName-input"
                       name="newLinkName"
-                      placeholder="Name"
+                      placeholder={linkNamePlaceholder[0]}
                       value={newLinkName}
                       maxLength="120"
                       onChange={this.handleInputChange}
                     />
                   </div>
-                  <div className="account-form-group">
+                  <div className="form-group">
                     <label htmlFor="newLinkUrl-input">URL</label>
                     <input
                       type="text"
                       id="newLinkUrl-input"
                       name="newLinkUrl"
-                      placeholder="URL"
+                      className={newLinkUrlError ? " error" : ""}
+                      placeholder={linkUrlPlaceholder[0]}
                       value={newLinkUrl}
-                      onChange={this.handleInputChange}
+                      onChange={this.handleUrlChange}
                     />
                   </div>
                 </div>
-                <button className="button add-link" onClick={this.addLink}>
+                {newLinkUrlError && (
+                  <p id="url-input-error">Please enter a valid URL.</p>
+                )}
+                <button
+                  id="add-link"
+                  className="button"
+                  onClick={this.addLink}
+                  disabled={newLinkUrlError}
+                >
                   Add new link
                 </button>
               </div>
@@ -208,12 +328,15 @@ export default class Person extends React.Component {
                 ))}
               </div>
             ) : (
-              <div className="empty-link-list">No links added yet.</div>
+              <div className="empty-link-list">
+                Add links to your profiles and accounts on social media and
+                other websites.
+              </div>
             )}
           </div>
           <div className="identities">
             <p className="form-group-title">Identities</p>
-            <div className="account-form-group identities-group">
+            <div className="form-group identities-group">
               <textarea
                 type="text"
                 id="identities-input"
@@ -224,7 +347,7 @@ export default class Person extends React.Component {
                 onChange={this.handleInputChange}
               />
             </div>
-            <p className="identities-input-helper-text">
+            <p className="input-helper-text mt">
               Separate identities with a comma.
             </p>
             {!!identitiesInput.trim().length ? (
@@ -247,11 +370,19 @@ export default class Person extends React.Component {
                   })}
               </div>
             ) : (
-              <div className="empty-identities">No identities added yet.</div>
+              <div className="empty-identities">
+                Add identities that describe you.
+                <br />
+                (Example: {exampleIdentities[0]})
+              </div>
             )}
           </div>
           <div id="save">
-            <button className="button save" onClick={this.save}>
+            <button
+              id="save-button"
+              className="button primary-action"
+              onClick={this.save}
+            >
               Save
             </button>
           </div>

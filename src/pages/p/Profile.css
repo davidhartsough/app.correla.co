@@ -1,11 +1,11 @@
-h1#name {
+#name-heading {
   margin: 0;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   font-size: 1.5rem;
   font-weight: 300;
   line-height: 1.25;
 }
-.sub {
+#sub-heading {
   margin: 0;
   margin-bottom: 0.5rem;
   font-size: 1rem;
@@ -15,8 +15,6 @@ h1#name {
   flex-wrap: wrap;
 }
 .sub-span {
-  display: flex;
-  align-items: center;
   min-width: 3rem;
   margin-bottom: 0.25rem;
 }
@@ -29,49 +27,8 @@ h1#name {
   margin-right: 0.125rem;
   flex-shrink: 0;
 }
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-}
-.chip,
-.link-chip {
-  padding: 0 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.24);
-  border-radius: 0.75rem;
-  margin: 0 0.4rem 0.4rem 0;
-  font-size: 0.875rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.icon-chip {
-  padding: 0.25rem 0.75rem 0.25rem 0.5rem;
-}
-.chip-icon {
-  flex: 1 1 auto;
-  margin-right: 0.25rem;
-  font-size: 20px;
-}
-.chip-text {
-  flex: 1 1 auto;
-}
-.chip-span {
-  flex: 1 1 auto;
-  height: 1.5rem;
-  line-height: calc(1.5rem - 1px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.hr {
-  border: none;
-  border-top: 1px solid rgba(0, 0, 0, 0.25);
-  margin: 0.25rem 1rem 1.5rem;
-}
-#links {
-  padding: 0 0 1.5rem 0;
-  margin: 0 1rem;
+.profile-section {
+  padding: 0.5rem 0;
 }
 .link-chip {
   border: 1px solid #198bed;
@@ -83,15 +40,8 @@ h1#name {
   background-color: #f1f6fc;
   background-color: rgba(25, 139, 237, 0.05);
 }
-.icon-link-chip {
-  padding-left: 0.5rem;
-}
-.icon-link-chip .icon {
-  width: 1.125rem;
-  margin-right: 0.25rem;
-}
 @media screen and (min-width: 540px) {
-  h1#name {
+  #name-heading {
     font-size: 2rem;
   }
 }

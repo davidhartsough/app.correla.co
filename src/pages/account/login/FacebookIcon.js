@@ -1,7 +1,5 @@
 import React from "react";
 
-// #4267b2
-
 export default () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

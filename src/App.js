@@ -22,12 +22,12 @@ export default () => (
       <div>
         <header>
           <nav>
-            <div className="nav-link-c">
+            <div className="nav-link-c flex-align-center">
               <Link to="/" className="nav-link">
                 Correla
               </Link>
             </div>
-            <div className="nav-link-c nav-right">
+            <div className="nav-link-c nav-right flex-align-center">
               <AccountLink />
             </div>
           </nav>

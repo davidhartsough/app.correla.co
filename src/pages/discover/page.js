@@ -62,6 +62,7 @@ export default class Page extends React.Component {
   render() {
     const { people } = this.props;
     const { isFetching, data } = people;
+    console.log(data);
     return isFetching ? <PageLoader /> : <People people={data} />;
   }
 }

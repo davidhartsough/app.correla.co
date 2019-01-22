@@ -29,7 +29,6 @@ export const getName = (name, fname, lname) => {
 
 export const createPerson = username => dispatch => {
   dispatch(requestPerson());
-  console.log(username);
   const uid = auth.user.id;
   const p = auth.user.profile;
   const name = getName(p.name, p.firstName, p.lastName);
@@ -48,7 +47,8 @@ export const createPerson = username => dispatch => {
       identities: [],
       links: [],
       pictureUrl: p.pictureUrl && p.pictureUrl.length ? p.pictureUrl : null,
-      _pictureUrl: p.pictureUrl
+      _pictureUrl: p.pictureUrl,
+      locationName: ""
     })
     .then(({ insertedId }) => {
       usernameCollection.insertOne({
@@ -72,7 +72,16 @@ export const fetchPerson = () => dispatch => {
     .then(person => dispatch(receivePerson(person)));
 };
 
-export const updatePerson = updates => dispatch => {
+export const updatePerson = (id, updates) => dispatch => {
   dispatch(requestPerson());
   console.log(updates);
+  return peopleCollection
+    .updateOne({ _id: id }, { $set: updates })
+    .then(results => {
+      console.log(results);
+      peopleCollection
+        .find({ _id: id }, { limit: 1 })
+        .first()
+        .then(person => dispatch(receivePerson(person)));
+    });
 };

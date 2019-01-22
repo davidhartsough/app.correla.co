@@ -8,7 +8,7 @@ export default ({ person, updatePerson }) => {
   if (isFetching) {
     return <PageLoader />;
   }
-  if (Object.keys(data).length === 0) {
+  if (!data || (!!data && Object.keys(data).length === 0)) {
     return <Create />;
   }
   return <Person person={data} updatePerson={updatePerson} />;
