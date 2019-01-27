@@ -15,7 +15,8 @@ export const fetchPeople = query => dispatch => {
       projection: {
         name: 1,
         username: 1,
-        locationName: 1
+        locationName: 1,
+        identitiesString: 1
       }
     })
     .asArray()

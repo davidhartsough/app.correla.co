@@ -5,7 +5,7 @@
   margin: 0.125rem 0 0;
 }
 .identity-chips {
-  padding: 1rem 0.5rem 0;
+  padding: 1rem 0.25rem 0;
 }
 .form-group-title {
   font-size: 1.125rem;
@@ -21,11 +21,9 @@
   border-color: #f44336;
   outline: none;
 }
-#url-input-error {
-  font-size: 0.875rem;
-  color: #c51010;
+.url-input-error {
   margin: 0.5rem 0;
-  text-align: right;
+  text-align: left;
 }
 #add-link {
   margin: 1rem auto 0.5rem auto;
@@ -83,5 +81,8 @@
   }
   .links-group .form-group:last-child {
     margin: 1rem 0 0 0.75rem;
+  }
+  .url-input-error {
+    text-align: right;
   }
 }

@@ -7,11 +7,14 @@ export default class Search extends React.Component {
   state = {
     name: "",
     identities: "",
-    nearMe: false,
+    nearMe: window.sessionStorage.getItem("hasCoords") === "true",
     showNearMe: !!window.navigator.geolocation,
-    requestCoords: false,
+    requestCoords: window.sessionStorage.getItem("hasCoords") === "true",
     loadingCoords: false,
-    coords: false,
+    coords:
+      window.sessionStorage.getItem("hasCoords") === "true"
+        ? JSON.parse(sessionStorage.getItem("coords"))
+        : false,
     locationErrorMessage: ""
   };
 
@@ -50,6 +53,14 @@ export default class Search extends React.Component {
       coords,
       loadingCoords: false
     });
+    window.sessionStorage.setItem("hasCoords", "true");
+    window.sessionStorage.setItem(
+      "coords",
+      JSON.stringify({
+        latitude: coords.latitude,
+        longitude: coords.longitude
+      })
+    );
   };
 
   handleLocationError = error => {

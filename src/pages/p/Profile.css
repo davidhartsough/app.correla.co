@@ -30,7 +30,7 @@
 .profile-section {
   padding: 0.5rem 0;
 }
-.link-chip {
+#links .link-chip {
   border: 1px solid #198bed;
   color: #198bed;
   fill: #198bed;

@@ -1,15 +1,9 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import Autocomplete from "react-google-autocomplete";
-import LinkItem from "./LinkItem";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Person.css";
 
-const exampleIdentities = [
-  "Dad, Husband, Activist, Photographer, Producer, NYU alum, ENFP",
-  "Basketball player, ",
-  "Motorcyclist, "
-];
 const linkNamePlaceholder = ["Twitter", "My Website", "Facebook", "Spotify"];
 const linkUrlPlaceholder = [
   "https://twitter.com/account",
@@ -17,12 +11,13 @@ const linkUrlPlaceholder = [
   "https://www.facebook.com/username",
   "https://open.spotify.com/user/account"
 ];
+const getNextIndex = index => {
+  return index >= 3 ? 0 : index + 1;
+};
 
 const today = new Date();
 const minDate = new Date("1901-01-01");
 const urlPattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
-// const emailPattern = /^(([^<>()[]\\.,;:\s@"]+(\.[^<>()[]\\.,;:\s@"]+)*)|(".+"))@(([a-z\-0-9]+\.)+[a-z]{2,6})$/;
-// const emailPattern = /^.+@.+$/;
 const emailPattern = /^.+@(([a-z\-0-9]+\.)+[a-z]{2,6})$/;
 
 const convertLinksToString = links =>
@@ -51,11 +46,7 @@ const getUpdates = (prev, next) => {
   if (prev.email !== next.email) {
     updates.email = next.email;
   }
-  const prevIdentitiesString =
-    !!prev.identities && !!prev.identities.length
-      ? prev.identities.join(", ")
-      : "";
-  if (prevIdentitiesString !== next.identitiesInput) {
+  if (prev.identitiesString !== next.identitiesInput) {
     if (next.identitiesInput.trim().length) {
       const newIdentitiesArray = next.identitiesInput
         .trim()
@@ -63,13 +54,17 @@ const getUpdates = (prev, next) => {
         .map(id => id.replace(",", "").trim());
       updates.identities = newIdentitiesArray;
       updates.identitiesSearch = newIdentitiesArray.map(id => id.toUpperCase());
+      updates.identitiesString = next.identitiesInput.trim();
     } else {
+      updates.identitiesString = "";
       updates.identities = [];
       updates.identitiesSearch = [];
     }
   }
   if (convertLinksToString(prev.links) !== convertLinksToString(next.links)) {
-    updates.links = next.links;
+    updates.links = next.links.filter(
+      link => !!link.name.length && !!link.url.length
+    );
   }
   return updates;
 };
@@ -85,12 +80,13 @@ export default class Person extends React.Component {
       birthday: p.birthday,
       birthdayInput: !!p.birthday ? new Date(p.birthday) : null,
       email: p.email || "",
-      identitiesInput:
-        !!p.identities && p.identities.length ? p.identities.join(", ") : "",
+      identitiesInput: p.identitiesString || "",
       links: !!p.links && p.links.length ? p.links : [],
       newLinkName: "",
       newLinkUrl: "",
       newLinkUrlError: false,
+      linkPlaceholderIndex: Math.floor(Math.random() * 4),
+      hasLinkUrlError: false,
       emailError: false
     };
   }
@@ -106,7 +102,7 @@ export default class Person extends React.Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
-      newLinkUrlError: !urlPattern.test(value)
+      newLinkUrlError: value.length ? !urlPattern.test(value) : false
     });
   };
 
@@ -114,7 +110,7 @@ export default class Person extends React.Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
-      emailError: !emailPattern.test(value)
+      emailError: value.length ? !emailPattern.test(value) : false
     });
   };
 
@@ -134,7 +130,11 @@ export default class Person extends React.Component {
 
   addLink = () => {
     const { newLinkName, newLinkUrl } = this.state;
-    if (newLinkName.length && newLinkUrl.length) {
+    if (
+      newLinkName.length &&
+      newLinkUrl.length &&
+      urlPattern.test(newLinkUrl)
+    ) {
       this.setState(prevState => ({
         newLinkName: "",
         newLinkUrl: "",
@@ -144,17 +144,40 @@ export default class Person extends React.Component {
             name: prevState.newLinkName,
             url: prevState.newLinkUrl
           }
-        ]
+        ],
+        linkPlaceholderIndex: getNextIndex(prevState.linkPlaceholderIndex)
       }));
     }
   };
 
-  updateLink = (index, updatedLink) => {
+  handleLinkNameChange = index => ({ target }) => {
+    const { value } = target;
     this.setState(prevState => {
-      const { links } = prevState;
+      const links = [...prevState.links];
+      links.splice(index, 1, {
+        ...prevState.links[index],
+        name: value
+      });
+      return { links };
+    });
+  };
+
+  handleLinkUrlChange = index => ({ target }) => {
+    const { value } = target;
+    this.setState(prevState => {
+      const links = [...prevState.links];
+      const updatedLink = {
+        name: prevState.links[index].name,
+        url: value
+      };
+      const urlError = !urlPattern.test(value);
+      if (urlError) {
+        updatedLink.urlError = true;
+      }
       links.splice(index, 1, updatedLink);
       return {
-        links
+        links,
+        hasLinkUrlError: urlError && !!value.length
       };
     });
   };
@@ -172,9 +195,7 @@ export default class Person extends React.Component {
   save = () => {
     const { person, updatePerson } = this.props;
     const updates = getUpdates(person, this.state);
-    console.log(updates);
     if (Object.keys(updates).length > 0) {
-      console.log("do it");
       updatePerson(person._id, updates);
     }
   };
@@ -191,6 +212,8 @@ export default class Person extends React.Component {
       newLinkName,
       newLinkUrl,
       newLinkUrlError,
+      linkPlaceholderIndex,
+      hasLinkUrlError,
       emailError
     } = this.state;
     return (
@@ -236,7 +259,7 @@ export default class Person extends React.Component {
             />
           </div>
           {emailError && (
-            <p className="email-input-error">Please enter a email.</p>
+            <p className="input-error-text">Please enter a valid email.</p>
           )}
           <div id="age-group">
             <div id="show-age-group" className="form-group flex-align-center">
@@ -274,7 +297,7 @@ export default class Person extends React.Component {
           </div>
           <div className="links-group">
             <p className="form-group-title">Links</p>
-            {links.length < 8 && (
+            {links.length < 16 && (
               <div className="new-link">
                 <div className="new-link-group">
                   <div className="form-group">
@@ -283,7 +306,7 @@ export default class Person extends React.Component {
                       type="text"
                       id="newLinkName-input"
                       name="newLinkName"
-                      placeholder={linkNamePlaceholder[0]}
+                      placeholder={linkNamePlaceholder[linkPlaceholderIndex]}
                       value={newLinkName}
                       maxLength="120"
                       onChange={this.handleInputChange}
@@ -295,15 +318,18 @@ export default class Person extends React.Component {
                       type="text"
                       id="newLinkUrl-input"
                       name="newLinkUrl"
-                      className={newLinkUrlError ? " error" : ""}
-                      placeholder={linkUrlPlaceholder[0]}
+                      className={newLinkUrlError ? "error" : ""}
+                      placeholder={linkUrlPlaceholder[linkPlaceholderIndex]}
                       value={newLinkUrl}
+                      maxLength="240"
                       onChange={this.handleUrlChange}
                     />
                   </div>
                 </div>
                 {newLinkUrlError && (
-                  <p id="url-input-error">Please enter a valid URL.</p>
+                  <p className="url-input-error input-error-text">
+                    Please enter a valid URL.
+                  </p>
                 )}
                 <button
                   id="add-link"
@@ -318,19 +344,68 @@ export default class Person extends React.Component {
             {!!links.length ? (
               <div className="link-list">
                 {links.map((link, index) => (
-                  <LinkItem
-                    key={`${link.name}-${link.url}-${index}`}
-                    name={link.name}
-                    url={link.url}
-                    index={index}
-                    updateLink={this.updateLink}
-                  />
+                  <div key={`link-${index}`}>
+                    <div className="link-item">
+                      <div className="form-group">
+                        <label htmlFor={`link-name-input-${index}`}>Name</label>
+                        <input
+                          type="text"
+                          id={`link-name-input-${index}`}
+                          name="name"
+                          placeholder="Name"
+                          value={link.name}
+                          maxLength="120"
+                          onChange={this.handleLinkNameChange(index)}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor={`link-url-input-${index}`}>URL</label>
+                        <input
+                          type="text"
+                          id={`link-url-input-${index}`}
+                          name="url"
+                          placeholder="URL"
+                          className={
+                            !!link.urlError && !!link.url.length ? "error" : ""
+                          }
+                          value={link.url}
+                          maxLength="240"
+                          onChange={this.handleLinkUrlChange(index)}
+                        />
+                      </div>
+                    </div>
+                    {!link.name.length &&
+                      !link.url.length && (
+                        <p className="input-helper-text">
+                          This link will be removed.
+                        </p>
+                      )}
+                    {!link.name.length &&
+                      !!link.url.length && (
+                        <p className="input-error-text">
+                          Please enter a name or the link will be removed.
+                        </p>
+                      )}
+                    {!link.url.length &&
+                      !!link.name.length && (
+                        <p className="input-error-text">
+                          Please enter a URL or the link will be removed.
+                        </p>
+                      )}
+                    {!!link.urlError &&
+                      !!link.name.length &&
+                      !!link.url.length && (
+                        <p className="url-input-error input-error-text">
+                          Please enter a valid URL.
+                        </p>
+                      )}
+                  </div>
                 ))}
               </div>
             ) : (
               <div className="empty-link-list">
-                Add links to your profiles and accounts on social media and
-                other websites.
+                Add links to your profiles and accounts on other websites or
+                social media.
               </div>
             )}
           </div>
@@ -373,7 +448,8 @@ export default class Person extends React.Component {
               <div className="empty-identities">
                 Add identities that describe you.
                 <br />
-                (Example: {exampleIdentities[0]})
+                (Example: Dad, Husband, Activist, Photographer, Producer, NYU
+                alum, ENFP, Motorcyclist, Basketball player, Buddhist, Canadian)
               </div>
             )}
           </div>
@@ -382,6 +458,7 @@ export default class Person extends React.Component {
               id="save-button"
               className="button primary-action"
               onClick={this.save}
+              disabled={emailError || hasLinkUrlError}
             >
               Save
             </button>

@@ -6,10 +6,6 @@ header {
 nav {
   display: flex;
 }
-.flex-align-center {
-  display: flex;
-  align-items: center;
-}
 .nav-link-c {
   flex: 1 1 auto;
 }
@@ -91,10 +87,10 @@ hr {
   border-radius: 1.25rem;
   font-weight: 600;
   line-height: calc(1.5rem - 1px);
+  margin: 1.5rem auto 2rem;
 }
 .primary-action:hover,
 .primary-action:active {
-  /* opacity: 0.9; */
   background-color: rgba(25, 139, 237, 0.8);
 }
 .primary-action:focus {
@@ -149,6 +145,7 @@ input[type="text"],
 input[type="number"],
 input[type="email"],
 textarea {
+  outline: none;
   display: block;
   width: 100%;
   height: 2rem;
@@ -173,7 +170,9 @@ textarea:hover {
   border-color: #aaa;
 }
 input:focus,
-input:active {
+input:active,
+textarea:focus,
+textarea:active {
   border-color: #198bed;
 }
 input.error {
@@ -197,6 +196,11 @@ input.error {
     margin-bottom: 0;
     min-width: 5rem;
   }
+}
+
+.flex-align-center {
+  display: flex;
+  align-items: center;
 }
 
 .page-loader {

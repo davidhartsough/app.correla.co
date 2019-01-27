@@ -43,6 +43,7 @@ export const createPerson = username => dispatch => {
       _birthday: p.birthday && p.birthday.length ? p.birthday : null,
       showAge: !!(p.birthday && p.birthday.length),
       email: p.email && p.email.length ? p.email : null,
+      identitiesString: "",
       identitiesSearch: [],
       identities: [],
       links: [],
@@ -74,11 +75,9 @@ export const fetchPerson = () => dispatch => {
 
 export const updatePerson = (id, updates) => dispatch => {
   dispatch(requestPerson());
-  console.log(updates);
   return peopleCollection
     .updateOne({ _id: id }, { $set: updates })
     .then(results => {
-      console.log(results);
       peopleCollection
         .find({ _id: id }, { limit: 1 })
         .first()

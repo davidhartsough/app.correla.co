@@ -52,7 +52,7 @@ export default {
         },
         {
           name: "GitHub",
-          url: "https://github.com/davidhartsough/"
+          url: "https://github.com/davidhartsough"
         },
         {
           name: "YouTube",

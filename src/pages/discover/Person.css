@@ -6,6 +6,10 @@
   color: rgba(0, 0, 0, 0.8);
   fill: rgba(0, 0, 0, 0.8);
   background-color: #fff;
+  white-space: nowrap;
+}
+.person-item-top {
+  display: block;
 }
 .person-item:last-child {
   border-bottom: none;
@@ -29,11 +33,23 @@
   height: 1.5rem;
   font-size: 1rem;
   line-height: calc(1.5rem - 1px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.person-item-identities {
+  margin: 0.5rem 0 0 0;
+  line-height: 1.5;
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(0, 0, 0, 0.67);
 }
 @media screen and (min-width: 520px) {
   .person-item {
-    display: flex;
     padding: 1rem;
+  }
+  .person-item-top {
+    display: flex;
   }
   .person-item-section {
     width: 50%;
