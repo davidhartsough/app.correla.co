@@ -18,7 +18,7 @@ const NoMatch = () => <Redirect to="/" />;
 
 export default () => (
   <DataProvider>
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div>
         <header>
           <nav>
